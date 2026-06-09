@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article.title }}</title>
+</head>
+<body>
+    <h1>{{ article.title }}</h1>
+
+    <p>Author: {{ article.author }}</p>
+    <p>Category: {{ article.category }}</p>
+    <p>Created: {{ article.created_date }}</p>
+
+    <hr>
+
+    <p>{{ article.content }}</p>
+
+    <hr>
+
+    {% if request.user == article.author %}
+        <a href="{% url 'update_article' article.id %}">Edit</a>
+        <a href="{% url 'delete_article' article.id %}">Delete</a>
+    {% endif %}
+
+    <hr>
+
+    <H2>Comments</H2>
+    {% for comment in article.comments.all %}
+        <div>
+            <strong>{{ comment.user }}</strong>
+            <p>{{ comment.content }}</p>
+
+            <small>{{ comment.created_date }}</small>
+
+            {% if request.user == comment.user or request.user.is_superuser %}
+                <a href="{% url 'delete_comment' comment.id %}">Delete</a>
+            {% endif %}
+        </div>
+        
+        <hr>
+        {% empty %}
+            <p>No comments yet.</p>
+        {% endfor %}
+
+        {% if user.is_authenticated %}
+            <h3>Add Comment</h3>
+
+            <form method="POST" action="{% url 'add_comment' article.id %}">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit">Add Comment</button>
+            </form>
+        {% else %}
+            <p>Please login to comment.</p>
+        {% endif %}
+</body>
+</html>
