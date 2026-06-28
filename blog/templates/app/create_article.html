@@ -1,19 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Article</title>
-</head>
-<body>
-    <div class="container">
-        <h2>Create Article</h2>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p}}
+{% extends 'base.html' %}
+{% block title %}Create Article{% endblock %}
 
-            <button type="submit">Create</button>
-        </form>
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h3 class="mb-4">Create New Article</h3>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-dark mt-2">Publish Article</button>
+                    <a href="{% url 'article_list' %}" class="btn btn-outline-secondary mt-2">Cancel</a>
+                </form>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

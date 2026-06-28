@@ -1,37 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Articles</title>
-</head>
-<body>
-    <div class="container">
-        <h1>All Articles</h1>
-        {% if perms.blog.add_acticle %}
-            <a href="{% url 'create_article'%}">Create Article</a>
-        {% endif %}
+{% extends 'base.html' %}
+{% block title %}All Articles{% endblock %}
 
-        <hr>
-        {% for article in articles %}
-            <h2>{{ article.title }}</h2>
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>📰 All Articles</h2>
+    {% if perms.blog.add_article %}
+        <a href="{% url 'create_article' %}" class="btn btn-dark">+ New Article</a>
+    {% endif %}
+</div>
 
-            <p>
-                Author: {{ article.author }}
-            </p>
-
-            <p>
-                Category: {{ article.category }}
-            </p>
-
-            <a href="{% url 'article_detail' article.id %}">Read More ...</a>
-            
-            <hr>
-
-        {% empty %}
-            <p>No articles found</p>
-        {% endfor %}
+{% for article in articles %}
+<div class="card mb-3 shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">{{ article.title }}</h5>
+        <p class="text-muted mb-1">{{ article.author }} &nbsp;|&nbsp;  {{ article.category }}</p>
+        <p class="text-muted small">{{ article.created_date|date:"d M Y" }}</p>
+        <a href="{% url 'article_detail' article.id %}" class="btn btn-outline-dark btn-sm">Read More →</a>
     </div>
-
-</body>
-</html>
+</div>
+{% empty %}
+    <p class="text-muted">No articles found.</p>
+{% endfor %}
+{% endblock %}
