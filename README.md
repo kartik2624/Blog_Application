@@ -27,19 +27,3 @@ A full-featured blog platform with role-based access control and group-based per
 - Bootstrap 5
 - HTML/CSS
 
-## How to Run
-cd Blog_Application
-pip install django
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
-```
-
-## Project Structure
-```
-Blog_Application/
-├── Accounts/      # Auth, registration, login
-├── blog/          # Articles, comments, permissions
-├── templates/     # Base template
-└── manage.py
-```
